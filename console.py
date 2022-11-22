@@ -121,6 +121,8 @@ class HBNBCommand(cmd.Cmd):
         arg = ""
         if value[0] == '"' and value[-1] == '"':
             for i in range(1, len(value) - 1):
+                if value[i] == "_":
+                    arg += " "
                 arg += value[i]
             return arg
         else:
