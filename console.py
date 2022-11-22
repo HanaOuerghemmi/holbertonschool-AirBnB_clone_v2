@@ -127,8 +127,10 @@ class HBNBCommand(cmd.Cmd):
                     continue
                 arg += value[i]
             return arg
+        elif value.find(".") != -1:
+            return float(value)
         else:
-            return None
+            return int(value)
     
     def do_create(self, args):
         """ Create an object of any class"""
