@@ -10,11 +10,12 @@ import models
 
 class State(BaseModel):
     """ State class """
-    __tablename__ = "states"
-    name = Column(String(128), nullable=False)
-    cities = relationship("City")
-
     if getenv("HBNB_TYPE_STORAGE") != "db":
+        __tablename__ = "states"
+        name = Column(String(128), nullable=False)
+        cities = relationship("City",  backref="state", cascade="delete")
+
+    else:
         @property
         def cities(self):
             """return the list of city instance from file storage"""
@@ -23,3 +24,6 @@ class State(BaseModel):
                 if city.sate_id == self.id:
                     clist.append(city)
             return clist
+    def __init__(self, *args, **kwargs):
+        """initializes state"""
+        super().__init__(*args, **kwargs)
