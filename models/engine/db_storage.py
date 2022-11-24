@@ -21,7 +21,7 @@ class DBStorage():
     __session = None
     def __init__(self):
         """ initialize of anew bd create the engine """
-        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}"
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
                                     .format(getenv('HBNB_MYSQL_USER'), 
                                             getenv('HBNB_MYSQL_PWD'),
                                             getenv('HBNB_MYSQL_HOST'),
@@ -38,8 +38,7 @@ class DBStorage():
             objs = self.__session.query(cls.__class__.__name__)
         o = {}
         for obj in objs:
-            o[obj.__class__.__name__+ "." + obj.id]= obj
-            
+            o[obj.__class__.__name__+ "." + obj.id]= obj        
         return o
 
     def new(self, obj):
