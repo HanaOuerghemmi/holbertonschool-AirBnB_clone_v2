@@ -5,7 +5,8 @@ from sqlalchemy import Column, Integer, Float, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.review import Review
 from models.amenity import Amenity
-
+from os import getenv
+import models
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -24,3 +25,12 @@ class Place(BaseModel, Base):
     amenities = relationship("Amenity", secondary="place_amenity",
                              viewonly=False)"""
     amenity_ids = []
+    if getenv("HBNB_TYPE_STORAGE", None) != "db":
+        @property
+        def reviews(self):
+            """Get a list of all linked Reviews."""
+            review_list = []
+            for review in list(models.storage.all(Review).values()):
+                if review.place_id == self.id:
+                    review_list.append(review)
+            return review_list
