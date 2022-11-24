@@ -8,7 +8,7 @@ from models.base_model import Base
 from models.city import City
 import models
 
-class State(BaseModel):
+class State(BaseModel, Base):
     """ State class """
     if getenv("HBNB_TYPE_STORAGE") =="db":
         __tablename__ = "states"
