@@ -10,7 +10,8 @@ from models.city import City
 from models.place import Place
 from models.review import Review
 from models.state import State
-from models.user import User
+from sqlalchemy.orm import sessionmaker, scoped_session
+
 
 class DBStorage():
     """ DBStorage class"""
@@ -53,5 +54,10 @@ class DBStorage():
         """ """
         if obj:
             self.__session.delete(obj)
+    
+    def reload(self):
+        Base.metadata.create_all(self.__engine)
 
-            
+        session_factory = sessionmaker(bind=self.__engine,expire_on_commit=False)
+        Session = scoped_session(session_factory)
+    
