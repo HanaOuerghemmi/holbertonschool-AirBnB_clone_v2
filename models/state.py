@@ -10,7 +10,7 @@ import models
 
 class State(BaseModel):
     """ State class """
-    if getenv("HBNB_TYPE_STORAGE") != "db":
+    if getenv("HBNB_TYPE_STORAGE") =="db":
         __tablename__ = "states"
         name = Column(String(128), nullable=False)
         cities = relationship("City",  backref="state", cascade="delete")
@@ -24,6 +24,3 @@ class State(BaseModel):
                 if city.sate_id == self.id:
                     clist.append(city)
             return clist
-    def __init__(self, *args, **kwargs):
-        """initializes state"""
-        super().__init__(*args, **kwargs)
