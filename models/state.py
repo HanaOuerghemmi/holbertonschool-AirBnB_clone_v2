@@ -10,12 +10,12 @@ import models
 
 class State(BaseModel, Base):
     """ State class """
-    if getenv("HBNB_TYPE_STORAGE") =="db":
-        __tablename__ = "states"
-        name = Column(String(128), nullable=False)
-        cities = relationship("City",  backref="state", cascade="delete")
+    
+    __tablename__ = "states"
+    name = Column(String(128), nullable=False)
+    """cities = relationship("City",  backref="state", cascade="delete")"""
 
-    else:
+    if getenv("HBNB_TYPE_STORAGE") !="db":
         @property
         def cities(self):
             """return the list of city instance from file storage"""
