@@ -132,32 +132,38 @@ class HBNBCommand(cmd.Cmd):
             return int(value)
 
     def do_create(self, args):
-        """ Create an object of any class"""
-        arg = args.split()
-        if not args:
-            print("** class name missing **")
-            return
-        elif arg[0] not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
+        """Usage: create <class> <key 1>=<value 2> <key 2>=<value 2> ...
+        Create a new class instance with given keys/values and print its id.
+        """
+        try:
+            if not args:
+                raise SyntaxError()
+            my_list = args.split(" ")
 
-        new_instance = eval(arg[0])()
-        print(arg[0])
-        arg.pop(0)
-        for a in arg:
-            a = a.split('=')
-            if len(a) != 2:
-                continue
-            key = a[0]
-            value = a[1]
-            value = self.check_value(value)
-            if value is None:
-                continue
+            kwargs = {}
+            for i in range(1, len(my_list)):
+                key, value = tuple(my_list[i].split("="))
+                if value[0] == '"':
+                    value = value.strip('"').replace("_", " ")
+                else:
+                    try:
+                        value = eval(value)
+                    except (SyntaxError, NameError):
+                        continue
+                kwargs[key] = value
+
+            if kwargs == {}:
+                obj = eval(my_list[0])()
             else:
-                setattr(new_instance, key, value)
-        storage.new(new_instance)
-        storage.save()
-        print(new_instance.id)
+                obj = eval(my_list[0])(**kwargs)
+                storage.new(obj)
+            print(obj.id)
+            obj.save()
+
+        except SyntaxError:
+            print("** class name missing **")
+        except NameError:
+            print("** class doesn't exist **")
 
     def help_create(self):
         """ Help information for the create method """
