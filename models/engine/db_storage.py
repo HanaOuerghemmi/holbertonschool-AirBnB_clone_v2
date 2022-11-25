@@ -28,11 +28,14 @@ class DBStorage():
                                               getenv('HBNB_MYSQL_HOST'),
                                               getenv('HBNB_MYSQL_DB')),
                                       pool_pre_ping=True)
+        self.reload()
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """."""
+        """"""
+        Base.metadata.create_all(self.__engine)
+        self.__session = Session(self.__engine)
         if cls is None:
             objs = self.__session.query(
                 State, City, User, Review, Place, Amenity).all()

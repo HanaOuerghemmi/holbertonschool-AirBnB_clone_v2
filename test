@@ -1,0 +1,3 @@
+create State name="California" 
+create City state_id="e9987a8e-e07e-4857-b104-8afd72015200" name="San_Francisco_is_super_cool" 
+show City <e9987a8e-e07e-4857-b104-8afd72015200>
