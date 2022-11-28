@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from sqlalchemy import Column, Integer, Sequence, String, DateTime
 from sqlalchemy import create_engine
 from os import getenv
