@@ -16,14 +16,15 @@ class State(BaseModel, Base):
     if getenv("HBNB_TYPE_STORAGE") == "db":
 
         name = Column(String(128), nullable=False)
-        cities = relationship("City", backref="state", cascade="all, delete, delete-orphan")
+        cities = relationship("City", backref="state",
+                              cascade="all, delete, delete-orphan")
 
     else:
         @property
         def cities(self):
             """return the list of city instance from file storage"""
             clist = []
-            dics = models.storage.all(city.City)
+            dics = models.storage.all(City)
             for city in dics.values():
                 if city.sate_id == self.id:
                     clist.append(city)
