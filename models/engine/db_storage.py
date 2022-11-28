@@ -32,7 +32,6 @@ class DBStorage():
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
-
     def all(self, cls=None):
         """this returns a dictionary of models"""
         objects = dict()
