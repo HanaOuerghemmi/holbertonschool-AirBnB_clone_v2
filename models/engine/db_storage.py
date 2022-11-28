@@ -32,17 +32,23 @@ class DBStorage():
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
+
     def all(self, cls=None):
-        """"""
+        """this returns a dictionary of models"""
+        objects = dict()
+        all_classes = (User, State, City, Amenity, Place, Review)
         if cls is None:
-            objs = self.__session.query(
-                State, City, User, Review, Place, Amenity).all()
+            for class_type in all_classes:
+                query = self.__session.query(class_type)
+                for obj in query.all():
+                    obj_key = '{}.{}'.format(obj.__class__.__name__, obj.id)
+                    objects[obj_key] = obj
         else:
-            objs = self.__session.query(cls.__class__.__name__)
-        o = {}
-        for obj in objs:
-            o[obj.__class__.__name__ + "." + obj.id] = obj
-        return o
+            query = self.__session.query(cls)
+            for obj in query.all():
+                obj_key = '{}.{}'.format(obj.__class__.__name__, obj.id)
+                objects[obj_key] = obj
+        return objects
 
     def new(self, obj):
         """Add in database session."""
