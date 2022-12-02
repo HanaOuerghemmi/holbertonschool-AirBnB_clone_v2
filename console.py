@@ -11,8 +11,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
-globalClasses = ('BaseModel', 'User', 'State',
-                 'Amenity', 'City', 'Place', 'Review')
+
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
@@ -132,26 +131,33 @@ class HBNBCommand(cmd.Cmd):
         else:
             return int(value)
 
-    def do_create(self, line):
-        'Creates a new instance of BaseModel.'
-        args = line.split(' ')
-        if len(args[0]) == 0:
+    def do_create(self, args):
+        """ Create an object of any class"""
+        arg = args.split()
+        if not args:
             print("** class name missing **")
             return
-        elif len(args[0]) >= 1 and args[0] not in globalClasses:
+        elif arg[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
 
-        myobj = eval(args[0])()
-        if len(args) > 1:
-            for kwords in args[1:]:
-                my_map = kwords.split("=")
-
-                if hasattr(myobj, my_map[0]):
-                    setattr(myobj, my_map[0], eval(
-                        my_map[1].replace("_", " ")))
-        myobj.save()
-        print(myobj.id)
+        new_instance = eval(arg[0])()
+        print(arg[0])
+        arg.pop(0)
+        for a in arg:
+            a = a.split('=')
+            if len(a) != 2:
+                continue
+            key = a[0]
+            value = a[1]
+            value = self.check_value(value)
+            if value is None:
+                continue
+            else:
+                setattr(new_instance, key, value)
+        storage.new(new_instance)
+        storage.save()
+        print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
