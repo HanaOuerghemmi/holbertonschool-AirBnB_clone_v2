@@ -14,8 +14,11 @@ class FileStorage:
             temp = {}
 
             for key, val in FileStorage.__objects.items():
-                if key.split(".")[0] == cls.__name__:
-                    temp[key] = val.to_dict()
+                """if key.split(".")[0] == cls.__name__:
+                temp[key] = val.to_dict()"""
+                if isinstance(val, cls):
+                    temp[key] = value
+                    
             return temp
 
         return FileStorage.__objects
