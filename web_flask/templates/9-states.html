@@ -11,25 +11,25 @@
         <H1>States</H1>
         <UL>
         {% for s in state|sort(attribute="name") %}
-        <LI>{{ s.id }}: <B>{{ s.name }}</B></LI>
+            <LI>{{ s.id }}: <B>{{ s.name }}</B></LI>
         {% endfor %}
         </UL>
     {% elif state %}
         {% for s in state|sort(attribute="name") %}
-        {% if s.id == id %}
-        <H1>State: {{ s.name }}</H1>
-        <H3>Cities:</H3>
-        <UL>
+            {% if s.id == id %}
+                <H1>State: {{ s.name }}</H1>
+                <H3>Cities:</H3>
+            <UL>
             {% for city in cities|sort(attribute="name") %}
-            {% if city.s_id == s.id %}
-            <LI>{{ city.id }}: <B>{{ city.name }}</B></LI>
-            {% endif %}
+                {% if city.state_id == s.id %}
+                    <LI>{{ city.id }}: <B>{{ city.name }}</B></LI>
+                {% endif %}
             {% endfor %}
-        </UL>
-        {% end if %}
+            </UL>
+            {% end if %}
         {% end for %}
     {% else %}
-         <H1>Not found!</H1>
+        <H1>Not found!</H1>
     {% endif %}
 </BODY>
 
