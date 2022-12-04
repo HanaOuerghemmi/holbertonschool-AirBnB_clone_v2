@@ -14,17 +14,19 @@ app = Flask(__name__)
 @app.route('/states/<id>', strict_slashes=False)
 def state_id(id=""):
     state = []
-    for key, value in storage.all(State).items():
+    data = storage.all(State)
+    for key, value in data.items():
         state.append(value)
     if id:
         key = "State." + id
-        if key not in storage.all(State):
+        if key not in data:
             state = ""
-    
+
     cities = []
-    for key, value in storage.all(City).items():
+    dt = storage.all(City)
+    for key, value in dt.items():
         cities.append(value)
-    return render_template("9-states.html", id = id, state=state, cities=cities)
+    return render_template("9-states.html", id=id, state=state, cities=cities)
 
 
 @app.teardown_appcontext
