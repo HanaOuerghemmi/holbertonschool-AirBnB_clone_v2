@@ -12,11 +12,13 @@ app = Flask(__name__)
 @app.route('/states_list', strict_slashes=False)
 def states_list():
     states = list(storage.all("State").value())
+    states.sort(key=lambda state: state.name)
+
     return render_template('7-states_list.html', states=states)
 
 
 @app.teardown_appcontext
-def closedb():
+def closedb(exception):
     storage.close()
 
 
