@@ -24,7 +24,7 @@ def state_id(id=""):
     cities = []
     for key, value in storage.all(City).items():
         cities.append(value)
-    return render_template("9-states.html", id = id, state=state, cities = cities)
+    return render_template("9-states.html", id = id, state=state, cities=cities)
 
 
 @app.teardown_appcontext
